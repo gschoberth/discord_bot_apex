@@ -15,6 +15,7 @@
   ],
   "author": "Gregory Schoberth",
   "license": "ISC",
+  "private": true,
   "dependencies": {
     "canvas": "^2.6.1",
     "discord.js": "^11.5.1",
