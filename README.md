@@ -28,9 +28,11 @@ The following are all commands currently available for the bot. Note that the de
 
 ## API Links
 **Discord Developer Portal** - *Requires Discord Login*
+
 Token: [discordapp.com/developers/applications](https://discordapp.com/developers/applications/)
 
 **Tracker Network** - *Requires Tracker Network Login*
+
 API: [https://tracker.gg/developers/docs/titles/apex](https://tracker.gg/developers/docs/titles/apex)
 Token: [tracker.gg/developers/apps](https://tracker.gg/developers/apps)
 
