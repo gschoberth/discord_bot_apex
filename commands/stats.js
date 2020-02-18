@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const Canvas = require('canvas');
 const Discord = require('discord.js');
 
-const { trackerToken } = require('../config.json'); //Token for Tracker Network API
+const { trackerToken } = require('../config.js'); //Token for Tracker Network API
 
 const trackerUrl = 'https://public-api.tracker.gg/v2/apex/standard/profile/';
 

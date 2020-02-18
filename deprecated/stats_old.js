@@ -1,6 +1,6 @@
 //This file needs to be cleaned up to avoid the repeat formatting within the canvas.
 
-const { trackerToken } = require('../config.json');
+const { trackerToken } = require('../config.js');
 const fetch = require('node-fetch');
 
 const Canvas = require('canvas');

@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const CLEARDB = false; //Will determine if the DB is rebuild after each deployment
+
 
 const fs = require('fs');
 const fetch = require('node-fetch');
@@ -7,7 +9,7 @@ const Discord = require('discord.js');
 const Sequelize = require('sequelize');
 
 const client = new Discord.Client();
-const { prefix, token } = require('./config.json');
+const { prefix, token } = require('./config.js');
 const cooldowns = new Discord.Collection();
 
 //DB Stuff
@@ -45,10 +47,12 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
+
+
 //Once it's up and ready, run this code
 client.once('ready', () => {
   console.log('Ready!');
-  Users.sync({ force: true }); // Recreates the table everytime on startup, get rid of this on deployment
+  Users.sync({ force: CLEARDB }); // Recreates the table everytime on startup, get rid of this on deployment
 });
 
 client.on('message', (message) => {

@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Apex Legends Stats Bot For Discord",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start_local": "node index.js",
+    "dev": "node -r dotenv/config index.js"
   },
   "keywords": [
     "discord",
@@ -15,13 +17,14 @@
   ],
   "author": "Gregory Schoberth",
   "license": "ISC",
-  "private": true,
   "dependencies": {
     "canvas": "^2.6.1",
     "discord.js": "^11.5.1",
-    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "sequelize": "^5.21.3",
     "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
