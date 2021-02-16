@@ -1,61 +1,62 @@
 #!/usr/bin/env node
+const dotenv = require("dotenv");
+dotenv.config();
 const CLEARDB = false; //Will determine if the DB is rebuild after each deployment
 
+const fs = require("fs");
+const fetch = require("node-fetch");
 
-const fs = require('fs');
-const fetch = require('node-fetch');
-
-const Discord = require('discord.js');
-const Sequelize = require('sequelize');
+const Discord = require("discord.js");
+const Sequelize = require("sequelize");
 
 const client = new Discord.Client();
-const { prefix, token } = require('./config.js');
+const { prefix, token } = require("./config.js");
 const cooldowns = new Discord.Collection();
 
 //DB Stuff
-const sequelize = new Sequelize('database', 'user', 'password', {
-  host: 'localhost',
-  dialect: 'sqlite',
+const sequelize = new Sequelize("database", "user", "password", {
+  host: "localhost",
+  dialect: "sqlite",
   logging: false,
-  storage: 'database.sqlite'
+  storage: "database.sqlite",
 });
 
 //Table Schema
-const Users = sequelize.define('tags', {
+const Users = sequelize.define("tags", {
   discord: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   },
   platform: {
     type: Sequelize.STRING,
-    defaultValue: 'origin',
-    allowNull: false
+    defaultValue: "origin",
+    allowNull: false,
   },
   username: {
     type: Sequelize.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 // Get me all the commands in the commands folder and add them
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
 
-
-
 //Once it's up and ready, run this code
-client.once('ready', () => {
-  console.log('Ready!');
+client.once("ready", () => {
+  console.log("Ready!");
   Users.sync({ force: CLEARDB }); // Recreates the table everytime on startup, get rid of this on deployment
 });
 
-client.on('message', (message) => {
+client.on("message", (message) => {
   const { content, channel } = message;
 
   if (
@@ -71,7 +72,9 @@ client.on('message', (message) => {
   //If the command isn't in the collection bail out
   const command =
     client.commands.get(commandName) ||
-    client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+    client.commands.find(
+      (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+    );
 
   if (!command) return;
 
@@ -79,13 +82,14 @@ client.on('message', (message) => {
   if (command.args && !args.length) {
     let reply = `You didn't provide any arguements, ${message.author}!`;
 
-    if (command.usage) reply += `\nThe proper format would be: \`${prefix}${command.name} ${command.usage}\``;
+    if (command.usage)
+      reply += `\nThe proper format would be: \`${prefix}${command.name} ${command.usage}\``;
 
     return message.channel.send(reply);
   }
 
   //Channel only commands
-  if (command.guildOnly && message.channel.type !== 'text') {
+  if (command.guildOnly && message.channel.type !== "text") {
     return message.reply("I can't execute that command inside DMs!");
   }
 
@@ -104,7 +108,9 @@ client.on('message', (message) => {
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
-        `Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${command.name}\` command again.`
+        `Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${
+          command.name
+        }\` command again.`
       );
     }
   }
@@ -116,10 +122,10 @@ client.on('message', (message) => {
     command.execute(message, args, Users);
   } catch (error) {
     console.log(error);
-    message.reply('Something went wrong trying to execute command');
+    message.reply("Something went wrong trying to execute command");
   }
 });
 
-client.on('presenceUpdate', (oldMember, newMember) => {});
+client.on("presenceUpdate", (oldMember, newMember) => {});
 
 client.login(token);
