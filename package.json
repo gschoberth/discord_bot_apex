@@ -5,6 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "start": "node index.js",
     "start_local": "node index.js",
     "dev": "node -r dotenv/config index.js"
   },
