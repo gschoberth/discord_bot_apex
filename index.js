@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const dotenv = require("dotenv");
-dotenv.config();
+//const dotenv = require("dotenv");
+//dotenv.config();
 const CLEARDB = false; //Will determine if the DB is rebuild after each deployment
 
 const fs = require("fs");
